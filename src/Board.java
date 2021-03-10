@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Board {
     private Cell turn;
     private Cell[][] board;
+    private int emptyCell;
 
     Board(int n, int m) {
         this.turn = Cell.X;
@@ -13,6 +14,7 @@ public class Board {
                 board[i][j] = Cell.EMPTY;
             }
         }
+        emptyCell = n * m;
     }
     /*
     int f = 1;
@@ -52,29 +54,44 @@ public class Board {
             return Result.ERROR;
         }
         board[m.getRow()][m.getColumn()] = turn;
-        //TODO: проверить не победил ли игрок
+        int count = 1;
+        for (int i = m.getRow() + 1; i < board.length; i++) {
+            if (board[i][m.getColumn()] != turn) {
+                break;
+            }
+            count++;
+        }
+        for (int i = m.getRow() - 1; i >= 0; i--) {
+            if (board[i][m.getColumn()] != turn) {
+                break;
+            }
+            count++;
+        }
+
+        emptyCell -= 1;
+        if (emptyCell == 0) {
+            return Result.DRAW;
+        }
         changeTurn();
         return Result.UNKNOWN;
-
     }
 
     public void printBoard() {
+        System.out.println("Доска:");
         System.out.print(" ");
-        for (int j=0;j<board[0].length;j++){
-            System.out.print(j);
+        for (int j = 0; j < board[0].length; j++) {
+            System.out.print(" " + j);
         }
         System.out.println();
         for (int i = 0; i < board.length; i++) {
-            System.out.print(i);
+            System.out.print(i + " ");
             for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j]==Cell.X){
-                    System.out.print("X");
-                }
-                else if (board[i][j]==Cell.O) {
-                    System.out.print("O");
-                }
-                else{
-                    System.out.print(".");
+                if (board[i][j] == Cell.X) {
+                    System.out.print("X ");
+                } else if (board[i][j] == Cell.O) {
+                    System.out.print("O ");
+                } else {
+                    System.out.print(". ");
                 }
             }
             System.out.println();
