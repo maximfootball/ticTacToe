@@ -67,7 +67,7 @@ public class Board {
             }
             count++;
         }
-
+        // Привет, Максим
         emptyCell -= 1;
         if (emptyCell == 0) {
             return Result.DRAW;
