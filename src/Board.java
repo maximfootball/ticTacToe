@@ -5,8 +5,10 @@ public class Board {
     private Cell turn;
     private Cell[][] board;
     private int emptyCell;
+    private final int countWin;
 
-    Board(int n, int m) {
+    Board(int n, int m, int countWin) {
+        this.countWin = countWin;
         this.turn = Cell.X;
         this.board = new Cell[n][m];
         for (int i = 0; i < n; i++) {
@@ -67,6 +69,23 @@ public class Board {
             }
             count++;
         }
+        if (count >= countWin) {
+            return Result.WIN;
+        }
+        count = 1;
+        for (int i = m.getColumn() - 1; i >= 0; i--) {
+            if (board[m.getRow()][i] != turn) {
+                break;
+            }
+            count++;
+        }
+        /*новое*/
+        for (int i = m.getColumn() + 1; i < board.length; i++) {
+            if (board[m.getRow()][i] != turn) {
+                break;
+            }
+            count++;
+        }
         // Привет, Максим
         emptyCell -= 1;
         if (emptyCell == 0) {
@@ -74,6 +93,7 @@ public class Board {
         }
         changeTurn();
         return Result.UNKNOWN;
+
     }
 
     public void printBoard() {
