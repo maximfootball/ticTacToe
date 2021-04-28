@@ -80,12 +80,60 @@ public class Board {
             count++;
         }
         /*новое*/
-        for (int i = m.getColumn() + 1; i < board.length; i++) {
+        for (int i = m.getColumn() + 1; i < board[0].length; i++) {
             if (board[m.getRow()][i] != turn) {
                 break;
             }
             count++;
         }
+        if (count >= countWin) {
+            return Result.WIN;
+        }
+        count=0;
+        for (int i = m.getRow() + 1, j = m.getColumn() + 1; i < board.length && j < board[0].length; i++, j++) {
+            if (board[m.getRow()][m.getColumn()] == board[i][j]) {
+                count++;
+            }
+            else{
+                break;
+            }
+        }
+
+        for (int i = m.getRow(), j = m.getColumn(); i >= 0 && j >= 0; i--, j--) {
+            if (board[m.getRow()][m.getColumn()] == board[i][j]) {
+                count++;
+            }
+            else {
+                break;
+            }
+        }
+        if (count >= countWin) {
+            return Result.WIN;
+        }
+        count =0;
+
+
+        for (int i = m.getRow() -1, j = m.getColumn() +1; i >=0 && j < board[0].length; i--, j++) {
+            if (board[m.getRow()][m.getColumn()] == board[i][j]) {
+                count++;
+            }
+            else{
+                break;
+            }
+        }
+        for (int i = m.getRow(), j = m.getColumn(); i < board.length && j >= 0; i++, j--) {
+            if (board[m.getRow()][m.getColumn()] == board[i][j]) {
+                count++;
+            }
+            else {
+                break;
+            }
+        }
+        if (count >= countWin) {
+            return Result.WIN;
+        }
+
+
         // Привет, Максим
         emptyCell -= 1;
         if (emptyCell == 0) {
@@ -93,6 +141,7 @@ public class Board {
         }
         changeTurn();
         return Result.UNKNOWN;
+
 
     }
 
